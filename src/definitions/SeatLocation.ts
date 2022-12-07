@@ -1,0 +1,1 @@
+export type SeatLocation = [number, number, number];

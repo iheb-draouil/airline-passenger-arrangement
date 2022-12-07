@@ -21,11 +21,6 @@
         "testEnvironment": "node",
         "moduleNameMapper": {
             "src/(.*)": "<rootDir>/src"
-        },
-        "globals": {
-            "ts-jest": {
-                "tsconfig": "tsconfig.dev.json"
-            }
         }
     }
 }

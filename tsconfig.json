@@ -9,8 +9,11 @@
         "baseUrl": ".",
         "paths": {
             "src": [
-                "src"
+                "./src"
             ]
         }
-    }
+    },
+    "exclude": [
+        "tests/**/*"
+    ]
 }

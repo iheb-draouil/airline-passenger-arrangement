@@ -149,13 +149,9 @@ export class PassengersSeatsArrangementCalculator {
         
         let rowIndex = 0;
 
-        while (true) {
-
-            if (!leftBlockAisleSeats.hasOwnProperty(rowIndex)
-                && !rightBlockAisleSeats.hasOwnProperty(rowIndex)
-                && !middleBlocksAisleSeats.hasOwnProperty(rowIndex)) {
-                break;
-            }
+        while (leftBlockAisleSeats.hasOwnProperty(rowIndex)
+            || rightBlockAisleSeats.hasOwnProperty(rowIndex)
+            || middleBlocksAisleSeats.hasOwnProperty(rowIndex)) {
             
             if (leftBlockAisleSeats.hasOwnProperty(rowIndex)) {
                 leftBlockAisleSeats[rowIndex].forEach(e => result.push([0, ...e]));
@@ -174,12 +170,8 @@ export class PassengersSeatsArrangementCalculator {
         
         rowIndex = 0;
 
-        while (true) {
-
-            if (!leftBlockWindowSeats.hasOwnProperty(rowIndex)
-                && !rightBlockWindowSeats.hasOwnProperty(rowIndex)) {
-                break;
-            }
+        while (leftBlockWindowSeats.hasOwnProperty(rowIndex)
+            || rightBlockWindowSeats.hasOwnProperty(rowIndex)) {
             
             if (leftBlockWindowSeats.hasOwnProperty(rowIndex)) {
                 leftBlockWindowSeats[rowIndex].forEach(e => result.push([0, ...e]));
@@ -194,13 +186,9 @@ export class PassengersSeatsArrangementCalculator {
         
         rowIndex = 0;
 
-        while (true) {
-
-            if (!leftBlockMiddleSeats.hasOwnProperty(rowIndex)
-                && !rightBlockMiddleSeats.hasOwnProperty(rowIndex)
-                && !middleBlocksMiddleSeats.hasOwnProperty(rowIndex)) {
-                break;
-            }
+        while (leftBlockMiddleSeats.hasOwnProperty(rowIndex)
+            || rightBlockMiddleSeats.hasOwnProperty(rowIndex)
+            || middleBlocksMiddleSeats.hasOwnProperty(rowIndex)) {
             
             if (leftBlockMiddleSeats.hasOwnProperty(rowIndex)) {
                 leftBlockMiddleSeats[rowIndex].forEach(e => result.push([0, ...e]));

@@ -10,15 +10,15 @@ export class PassengersSeatsArrangementCalculator {
         const windowSeats: BlockRowSeats = { };
         const middleSeats: BlockRowSeats = { };
 
-        [...Array(numberOfRows).keys()].forEach(e => {
-            aisleSeats[e] = [[e, numberOfColums - 1]];
-        });
+        for (let i = 0; i < numberOfRows; i++) {
+            aisleSeats[i] = [[i, numberOfColums - 1]];
+        }
         
         if (numberOfColums > 1) {
 
-            [...Array(numberOfRows).keys()].forEach(e => {
-                windowSeats[e] = [[e, 0]];
-            });
+            for (let i = 0; i < numberOfRows; i++) {
+                windowSeats[i] = [[i, 0]];
+            }
 
         }
         
@@ -47,15 +47,15 @@ export class PassengersSeatsArrangementCalculator {
         const windowSeats: BlockRowSeats = { };
         const middleSeats: BlockRowSeats = { };
 
-        [...Array(numberOfRows).keys()].forEach(e => {
-            aisleSeats[e] = [[e, 0]];
-        });
+        for (let i = 0; i < numberOfRows; i++) {
+            aisleSeats[i] = [[i, 0]];
+        }
         
         if (numberOfColums > 1) {
 
-            [...Array(numberOfRows).keys()].forEach(e => {
-                windowSeats[e] = [[e, numberOfColums - 1]];
-            });
+            for (let i = 0; i < numberOfRows; i++) {
+                windowSeats[i] = [[i, numberOfColums - 1]];
+            }
 
         }
         

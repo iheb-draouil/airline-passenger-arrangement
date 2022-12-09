@@ -4,20 +4,25 @@ import { RowSeats } from 'src/definitions/RowSeats';
 
 export class PassengersSeatsArrangementCalculator {
 
-    private getSeatsFromLeftBlock(numberOfColums: number, numberOfRows: number): [BlockRowSeats, BlockRowSeats, BlockRowSeats] {
+    private getSeatsFromEdgeBlocks(
+        numberOfColums: number,
+        numberOfRows: number,
+        aisleSeatSelector: (rowIndex: number) => [number, number],
+        windowSeatSelector: (rowIndex: number) => [number, number],
+    ): [BlockRowSeats, BlockRowSeats, BlockRowSeats] {
 
         const aisleSeats: BlockRowSeats = { };
         const windowSeats: BlockRowSeats = { };
         const middleSeats: BlockRowSeats = { };
 
         for (let i = 0; i < numberOfRows; i++) {
-            aisleSeats[i] = [[i, numberOfColums - 1]];
+            aisleSeats[i] = [aisleSeatSelector(i)];
         }
         
         if (numberOfColums > 1) {
 
             for (let i = 0; i < numberOfRows; i++) {
-                windowSeats[i] = [[i, 0]];
+                windowSeats[i] = [windowSeatSelector(i)];
             }
 
         }
@@ -41,44 +46,29 @@ export class PassengersSeatsArrangementCalculator {
         return [aisleSeats, windowSeats, middleSeats];
     }
 
-    private getSeatsFromRightBlock(numberOfColums: number, numberOfRows: number): [BlockRowSeats, BlockRowSeats, BlockRowSeats] {
+    private findSeatsInLeftBlock(numberOfColums: number, numberOfRows: number): [BlockRowSeats, BlockRowSeats, BlockRowSeats] {
 
-        const aisleSeats: BlockRowSeats = { };
-        const windowSeats: BlockRowSeats = { };
-        const middleSeats: BlockRowSeats = { };
-
-        for (let i = 0; i < numberOfRows; i++) {
-            aisleSeats[i] = [[i, 0]];
-        }
+        return this.getSeatsFromEdgeBlocks(
+            numberOfColums,
+            numberOfRows,
+            rowIndex => [rowIndex, numberOfColums - 1],
+            rowIndex => [rowIndex, 0],
+        );
         
-        if (numberOfColums > 1) {
-
-            for (let i = 0; i < numberOfRows; i++) {
-                windowSeats[i] = [[i, numberOfColums - 1]];
-            }
-
-        }
-        
-        for (let i = 0; i < numberOfRows; i++) {
-
-            for (let j = 1; j < numberOfColums - 1; j++) {
-
-                if (middleSeats.hasOwnProperty(i)) {
-                    middleSeats[i].push([i, j]);
-                }
-
-                else {
-                    middleSeats[i] = [[i, j]];
-                }
-                
-            }
-
-        }
-
-        return [aisleSeats, windowSeats, middleSeats];
     }
 
-    private getSeatsFromMiddleBlocks(blocksShapes: [number, number][]): [RowSeats, RowSeats] {
+    private findSeatsInRightBlock(numberOfColums: number, numberOfRows: number): [BlockRowSeats, BlockRowSeats, BlockRowSeats] {
+
+        return this.getSeatsFromEdgeBlocks(
+            numberOfColums,
+            numberOfRows,
+            rowIndex => [rowIndex, 0],
+            rowIndex => [rowIndex, numberOfColums - 1],
+        );
+
+    }
+
+    private findSeatsInMiddleBlocks(blocksShapes: [number, number][]): [RowSeats, RowSeats] {
 
         const aisleSeats: RowSeats = { };
         const middleSeats: RowSeats = { };
@@ -126,7 +116,7 @@ export class PassengersSeatsArrangementCalculator {
         return [aisleSeats, middleSeats];
     }
 
-    private calculatePassengersSeatsArrangement(cabinShape: [number, number][]): SeatLocation[] {
+    private findPassengersSeatsArrangement(cabinShape: [number, number][]): SeatLocation[] {
 
         const result: SeatLocation[] = [];
 
@@ -134,18 +124,18 @@ export class PassengersSeatsArrangementCalculator {
             leftBlockAisleSeats,
             leftBlockWindowSeats,
             leftBlockMiddleSeats,
-        ] = this.getSeatsFromLeftBlock(...cabinShape[0]);
+        ] = this.findSeatsInLeftBlock(...cabinShape[0]);
         
         const [
             middleBlocksAisleSeats,
             middleBlocksMiddleSeats,
-        ] = this.getSeatsFromMiddleBlocks(cabinShape.slice(1, cabinShape.length - 1));
+        ] = this.findSeatsInMiddleBlocks(cabinShape.slice(1, cabinShape.length - 1));
 
         const [
             rightBlockAisleSeats,
             rightBlockWindowSeats,
             rightBlockMiddleSeats,
-        ] = this.getSeatsFromRightBlock(...cabinShape[cabinShape.length - 1]);
+        ] = this.findSeatsInRightBlock(...cabinShape[cabinShape.length - 1]);
         
         let rowIndex = 0;
 
@@ -250,7 +240,7 @@ export class PassengersSeatsArrangementCalculator {
             throw new Error('The capacity of the cabin is not respected');
         }
         
-        return this.calculatePassengersSeatsArrangement(cabinShape)
+        return this.findPassengersSeatsArrangement(cabinShape)
         .slice(0, numberOfPassengers);;
     }
 

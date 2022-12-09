@@ -3,17 +3,14 @@
         "moduleResolution": "Node",
         "module": "CommonJS",
         "target": "ES2015",
+        "sourceMap": true,
         "strict": true,
         "outDir": "build",
-        "rootDir": "src",
         "baseUrl": ".",
         "paths": {
             "src": [
-                "./src"
+                "src"
             ]
         }
-    },
-    "exclude": [
-        "tests/**/*"
-    ]
+    }
 }
